@@ -93,6 +93,7 @@ class DiceLoss(_Loss):
             else:
                 y_true = F.one_hot(y_true, num_classes)  # N,H*W -> N,H*W, C
                 y_true = y_true.permute(0, 2, 1)  # N, C, H*W
+            self.y_true=y_true
 
         if self.mode == MULTILABEL_MODE:
             y_true = y_true.view(bs, num_classes, -1)
