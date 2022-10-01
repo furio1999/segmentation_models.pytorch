@@ -176,7 +176,7 @@ def soft_dice_score(
     eps: float = 1e-7,
     dims=None,
 ) -> torch.Tensor:
-    assert output.size() == target.size(), print(f"\nout: {out.shape}, target: {target.shape}")
+    assert output.size() == target.size(), print(f"\noutput: {output.shape}, target: {target.shape}")
     if dims is not None:
         intersection = torch.sum(output * target, dim=dims)
         cardinality = torch.sum(output + target, dim=dims)
