@@ -79,7 +79,7 @@ class DiceLoss(_Loss):
                 mask = y_true != self.ignore_index
                 y_pred = y_pred * mask
                 y_true = y_true * mask
-
+    
         if self.mode == MULTICLASS_MODE:
             y_true = y_true.view(bs, -1)
             y_pred = y_pred.view(bs, num_classes, -1)
@@ -93,7 +93,7 @@ class DiceLoss(_Loss):
             else:
                 y_true = F.one_hot(y_true, num_classes)  # N,H*W -> N,H*W, C
                 y_true = y_true.permute(0, 2, 1)  # N, C, H*W
-
+        
         if self.mode == MULTILABEL_MODE:
             y_true = y_true.view(bs, num_classes, -1)
             y_pred = y_pred.view(bs, num_classes, -1)
@@ -102,7 +102,8 @@ class DiceLoss(_Loss):
                 mask = y_true != self.ignore_index
                 y_pred = y_pred * mask
                 y_true = y_true * mask
-
+        
+        self.y_pred,self.y_true=y_pred,y_true
         scores = self.compute_score(y_pred, y_true.type_as(y_pred), smooth=self.smooth, eps=self.eps, dims=dims)
 
         if self.log_loss:
