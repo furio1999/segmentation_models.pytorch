@@ -70,6 +70,7 @@ class DiceLoss(_Loss):
         bs = y_true.size(0)
         num_classes = y_pred.size(1)
         dims = (0, 2)
+        self.y_pred,self.y_true=y_pred,y_true
 
         if self.mode == BINARY_MODE:
             y_true = y_true.view(bs, 1, -1)
@@ -83,6 +84,7 @@ class DiceLoss(_Loss):
         if self.mode == MULTICLASS_MODE:
             y_true = y_true.view(bs, -1)
             y_pred = y_pred.view(bs, num_classes, -1)
+            self.y_pred2,self.y_true2=y_pred,y_true
 
             if self.ignore_index is not None:
                 mask = y_true != self.ignore_index
@@ -102,8 +104,7 @@ class DiceLoss(_Loss):
                 mask = y_true != self.ignore_index
                 y_pred = y_pred * mask
                 y_true = y_true * mask
-        
-        self.y_pred,self.y_true=y_pred,y_true
+       
         scores = self.compute_score(y_pred, y_true.type_as(y_pred), smooth=self.smooth, eps=self.eps, dims=dims)
 
         if self.log_loss:
