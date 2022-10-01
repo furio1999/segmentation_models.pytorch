@@ -55,6 +55,7 @@ class DiceLoss(_Loss):
         self.ignore_index = ignore_index
 
     def forward(self, y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
+        print("debug1")
 
         assert y_true.size(0) == y_pred.size(0)
         self.y_pred,self.y_true=y_pred,y_true
