@@ -55,7 +55,6 @@ class DiceLoss(_Loss):
         self.ignore_index = ignore_index
 
     def forward(self, y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
-        print("debug1")
 
         assert y_true.size(0) == y_pred.size(0)
         self.y_pred,self.y_true=y_pred,y_true
@@ -71,6 +70,7 @@ class DiceLoss(_Loss):
 
         bs = y_true.size(0)
         num_classes = y_pred.size(1)
+        self.num_classes = num_classes
         dims = (0, 2)
         self.y_p,self.y_t=y_pred,y_true
 
@@ -94,7 +94,9 @@ class DiceLoss(_Loss):
                 y_true = F.one_hot((y_true * mask).to(torch.long), num_classes)  # N,H*W -> N,H*W, C
                 y_true = y_true.permute(0, 2, 1) * mask.unsqueeze(1)  # N, C, H*W
             else:
+                print("pre: ", y_true.shape)
                 y_true = F.one_hot(y_true, num_classes)  # N,H*W -> N,H*W, C
+                print("post: ", y_true.shape)
                 y_true = y_true.permute(0, 2, 1)  # N, C, H*W
         
         if self.mode == MULTILABEL_MODE:
