@@ -57,6 +57,7 @@ class DiceLoss(_Loss):
     def forward(self, y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
 
         assert y_true.size(0) == y_pred.size(0)
+        self.y_pred,self.y_true=y_pred,y_true
 
         if self.from_logits:
             # Apply activations to get [0..1] class probabilities
@@ -70,7 +71,7 @@ class DiceLoss(_Loss):
         bs = y_true.size(0)
         num_classes = y_pred.size(1)
         dims = (0, 2)
-        self.y_pred,self.y_true=y_pred,y_true
+        self.y_pred2,self.y_true2=y_pred,y_true
 
         if self.mode == BINARY_MODE:
             y_true = y_true.view(bs, 1, -1)
@@ -84,7 +85,6 @@ class DiceLoss(_Loss):
         if self.mode == MULTICLASS_MODE:
             y_true = y_true.view(bs, -1)
             y_pred = y_pred.view(bs, num_classes, -1)
-            self.y_pred2,self.y_true2=y_pred,y_true
 
             if self.ignore_index is not None:
                 mask = y_true != self.ignore_index
