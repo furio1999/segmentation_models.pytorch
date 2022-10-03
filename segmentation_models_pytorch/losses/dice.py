@@ -86,6 +86,7 @@ class DiceLoss(_Loss):
             print("pre: ", y_true.shape)
             y_true = y_true.view(bs, -1)
             print("post: ", y_true.shape)
+            print("\npre-reshaping y_pred: ", y_pred.shape)
             y_pred = y_pred.view(bs, num_classes, -1)
             print("\nreshaped y_pred: ", y_pred.shape)
             self.y_p,self.y_t=y_pred,y_true            
