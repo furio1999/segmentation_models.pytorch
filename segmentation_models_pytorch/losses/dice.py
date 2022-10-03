@@ -107,7 +107,8 @@ class DiceLoss(_Loss):
                 mask = y_true != self.ignore_index
                 y_pred = y_pred * mask
                 y_true = y_true * mask
-       
+        
+        self.y_pred2,self.y_true2=y_pred,y_true
         scores = self.compute_score(y_pred, y_true.type_as(y_pred), smooth=self.smooth, eps=self.eps, dims=dims)
 
         if self.log_loss:
