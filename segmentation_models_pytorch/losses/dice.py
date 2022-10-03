@@ -84,7 +84,7 @@ class DiceLoss(_Loss):
                 y_true = y_true * mask
     
         if self.mode == MULTICLASS_MODE:
-            print("current index: ", self.track)
+            print("\ncurrent index: ", self.track)
             print("pre: ", y_true.shape)
             y_true = y_true.view(bs, -1)
             print("post: ", y_true.shape)
