@@ -97,6 +97,7 @@ class DiceLoss(_Loss):
                 y_true = y_true.permute(0, 2, 1) * mask.unsqueeze(1)  # N, C, H*W
             else:
                 y_true = F.one_hot(y_true, num_classes)  # N,H*W -> N,H*W, C
+                print("\n1-hot encoded", y_true.shape)
                 y_true = y_true.permute(0, 2, 1)  # N, C, H*W
         
         if self.mode == MULTILABEL_MODE:
