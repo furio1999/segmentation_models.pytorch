@@ -89,6 +89,7 @@ class DiceLoss(_Loss):
             y_pred = y_pred.view(bs, num_classes, -1)
             self.y_p,self.y_t=y_pred,y_true            
 
+            print("\ncheck index and 1-hot encode")
             if self.ignore_index is not None:
                 mask = y_true != self.ignore_index
                 y_pred = y_pred * mask.unsqueeze(1)
@@ -130,6 +131,7 @@ class DiceLoss(_Loss):
         if self.classes is not None:
             loss = loss[self.classes]
 
+        print("\nreturning")     
         return self.aggregate_loss(loss)
 
     def aggregate_loss(self, loss):
