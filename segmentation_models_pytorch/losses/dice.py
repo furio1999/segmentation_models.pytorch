@@ -96,6 +96,7 @@ class DiceLoss(_Loss):
                 y_true = F.one_hot((y_true * mask).to(torch.long), num_classes)  # N,H*W -> N,H*W, C
                 y_true = y_true.permute(0, 2, 1) * mask.unsqueeze(1)  # N, C, H*W
             else:
+                print("\n1-hot encoding...")
                 y_true = F.one_hot(y_true, num_classes)  # N,H*W -> N,H*W, C
                 print("\n1-hot encoded", y_true.shape)
                 y_true = y_true.permute(0, 2, 1)  # N, C, H*W
@@ -110,6 +111,7 @@ class DiceLoss(_Loss):
                 y_true = y_true * mask
         
         self.y_pred2,self.y_true2=y_pred,y_true
+        print("\nchecking shapes")
         scores = self.compute_score(y_pred, y_true.type_as(y_pred), smooth=self.smooth, eps=self.eps, dims=dims)
 
         if self.log_loss:
