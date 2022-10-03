@@ -53,6 +53,7 @@ class DiceLoss(_Loss):
         self.eps = eps
         self.log_loss = log_loss
         self.ignore_index = ignore_index
+        self.track = 0
 
     def forward(self, y_pred: torch.Tensor, y_true: torch.Tensor) -> torch.Tensor:
 
@@ -83,6 +84,7 @@ class DiceLoss(_Loss):
                 y_true = y_true * mask
     
         if self.mode == MULTICLASS_MODE:
+            print("current index: ", self.track)
             print("pre: ", y_true.shape)
             y_true = y_true.view(bs, -1)
             print("post: ", y_true.shape)
@@ -133,7 +135,8 @@ class DiceLoss(_Loss):
         if self.classes is not None:
             loss = loss[self.classes]
 
-        print("\nreturning")     
+        print("\nreturning")
+        self.track +=1
         return self.aggregate_loss(loss)
 
     def aggregate_loss(self, loss):
